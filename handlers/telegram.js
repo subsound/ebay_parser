@@ -8,7 +8,16 @@ const bot = new TelegramBot(botToken, { polling: true });
 const sendNewItemsToTelegram = (newItems, category) => {
   if (newItems.length === 0) return;
 
-  const message = `${newItems.length} new items in ${category.toUpperCase()} listed:\n\n` + newItems.map(item => `${item.title}\nPrice: ${item.price}\nLink: ${item.link}`).join('\n\n');
+  const now = new Date();
+  const formattedTime = now.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+
+  const message = `${formattedTime} Прибыл GOJO SATORU\n\n` +
+    `${newItems.length} new items in ${category.toUpperCase()} listed:\n\n` +
+    newItems.map(item => `${item.title}\nPrice: ${item.price}\nLink: ${item.link}`).join('\n\n');
   const sendChunks = async (chatId, message) => {
     const chunks = [];
     for (let i = 0; i < message.length; i += MAX_MESSAGE_LENGTH) {
